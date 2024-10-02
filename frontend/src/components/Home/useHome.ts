@@ -1,55 +1,36 @@
-import { CRYPTO_LIMIT, DEFAULT_API_ENDPOINT } from '@utils/constants';
-import { currencyFormatter, getVolumeToMarketCap } from '@utils/functions';
-import { Coin, CoinRawData } from '@utils/types';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useQuery } from 'react-query';
 
-const fetchCryptoData = async () => {
+import { CRYPTO_LIMIT, DEFAULT_API_ENDPOINT } from '@utils/constants';
+import { Coin } from '@utils/types';
+
+const fetchCryptoData = async (page: number) => {
   try {
-    const data = await fetch(`${DEFAULT_API_ENDPOINT}top-crypto?limit=${1}`);
+    const data = await fetch(`${DEFAULT_API_ENDPOINT}top-crypto?limit=${CRYPTO_LIMIT}&page=${page}`);
 
     if (!data.ok) {
       throw new Error('Error fetching cryptocurrency, try later');
     }
 
-    const crypto: CoinRawData[] = await data.json();
-    const coins: Coin[] = crypto.map(
-      ({
-        id,
-        name,
-        symbol,
-        values: {
-          USD: { price, marketCap, volume24h },
-        },
-        rank,
-      }) => ({
-        id,
-        name,
-        symbol,
-        price: currencyFormatter.format(price),
-        rank,
-        marketCap: currencyFormatter.format(marketCap),
-        volumeToMarketCap: getVolumeToMarketCap(volume24h, marketCap).toFixed(2),
-      }),
-    );
+    const crypto: Coin[] = await data.json();
 
-    return coins;
+    return crypto;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Error fetching cryptocurrency, try later', error);
   }
 };
 
-export const useHome = () => {
-  const [coins, setCoins] = useState<Coin[] | []>([]);
+export const useHome = (currentPage: number) => {
+  const { data = [], isError } = useQuery({
+    queryKey: ['coins', currentPage],
+    queryFn: () => fetchCryptoData(currentPage),
+    keepPreviousData: true,
+  });
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetchCryptoData();
-      setCoins(result || []);
-    };
+    if (isError) console.log('Error fetching coins');
+  }, [isError]);
 
-    fetchData();
-  }, []);
-
-  return { coins };
+  return { coins: data };
 };

@@ -13,7 +13,8 @@
       "@components/*": ["src/components/*"],
       "@utils/*": ["src/utils/*"],
       "@context*": ["src/context/index.ts"],
-      "@types*": ["src/utils/types/index.ts"]
+      "@types*": ["src/utils/types/index.ts"],
+      "@hooks/*": ["src/hooks/*"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.jsx", "src/**/*.js"],

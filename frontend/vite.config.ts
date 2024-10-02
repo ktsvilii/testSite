@@ -15,6 +15,7 @@ export default defineConfig({
       '@components': '/src/components',
       '@utils': '/src/utils',
       '@context': '/src/context',
+      '@hooks': '/src/hooks',
     },
   },
   server: {
