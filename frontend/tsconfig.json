@@ -17,6 +17,6 @@
       "@hooks/*": ["src/hooks/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.jsx", "src/**/*.js"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.jsx", "src/**/*.js", "globals.d.ts"],
   "exclude": ["node_modules"]
 }

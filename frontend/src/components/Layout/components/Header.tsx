@@ -1,6 +1,7 @@
 import { FC } from 'react';
+
 import { ThemeController } from './ThemeController';
-import { NAME } from '@utils/constants';
+import { ConnectMetamask } from './ConnectMetamask';
 
 const Header: FC = () => {
   return (
@@ -32,7 +33,7 @@ const Header: FC = () => {
         </div>
       </div>
       <div className='navbar-center'>
-        <a className='btn btn-ghost text-xl'>{NAME}</a>
+        <ConnectMetamask />
       </div>
 
       <div className='navbar-end'>

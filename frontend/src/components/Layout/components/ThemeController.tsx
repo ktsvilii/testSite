@@ -16,9 +16,11 @@ export const ThemeController: FC = () => {
   }, [theme]);
 
   return (
-    <details className='dropdown'>
-      <summary className='btn m-1'>Change Theme</summary>
-      <ul className='menu dropdown-content bg-base-100 rounded-box z-[1] p-2 shadow'>
+    <div className='dropdown'>
+      <div tabIndex={0} role='button' className='btn m-1'>
+        Change theme
+      </div>
+      <ul tabIndex={0} className='dropdown-content bg-base-100 rounded-box z-[1] p-2 shadow'>
         {themes.map(theme => {
           return (
             <li key={theme} onClick={() => themeChangeHandler(theme)}>
@@ -27,6 +29,6 @@ export const ThemeController: FC = () => {
           );
         })}
       </ul>
-    </details>
+    </div>
   );
 };
