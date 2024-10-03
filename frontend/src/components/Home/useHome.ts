@@ -6,7 +6,7 @@ import { Coin } from '@utils/types';
 
 const fetchCryptoData = async (page: number) => {
   try {
-    const data = await fetch(`${DEFAULT_API_ENDPOINT}top-crypto?limit=${CRYPTO_LIMIT}&page=${page}`);
+    const data = await fetch(`${DEFAULT_API_ENDPOINT}crypto?limit=${CRYPTO_LIMIT}&page=${page}`);
 
     if (!data.ok) {
       throw new Error('Error fetching cryptocurrency, try later');
