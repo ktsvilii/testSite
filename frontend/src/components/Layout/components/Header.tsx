@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { ThemeController } from './ThemeController';
-import { ConnectMetamask } from './ConnectMetamask';
+import { ConnectMetamaskButton } from './ConnectMetamaskButton';
 
 const Header: FC = () => {
   return (
@@ -33,7 +33,7 @@ const Header: FC = () => {
         </div>
       </div>
       <div className='navbar-center'>
-        <ConnectMetamask />
+        <ConnectMetamaskButton />
       </div>
 
       <div className='navbar-end'>

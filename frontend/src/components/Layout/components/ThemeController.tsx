@@ -1,34 +1,34 @@
-import { FC, useContext, useEffect } from 'react';
+import { FC, useContext, useEffect, useState } from 'react';
 import { ThemeContext } from '@context';
 import { ThemeName } from '@utils/types';
 
-const themes = [ThemeName.CYBERPUNK, ThemeName.HALLOWEEN];
+import { GiSteampunkGoggles, GiPumpkinLantern } from 'react-icons/gi';
 
 export const ThemeController: FC = () => {
   const { theme, handleThemeChange } = useContext(ThemeContext);
+  const [currentTheme, setCurrentTheme] = useState(theme);
 
-  const themeChangeHandler = (theme: ThemeName) => {
-    handleThemeChange(theme);
+  const themeChangeHandler = () => {
+    const newTheme = currentTheme === ThemeName.CYBERPUNK ? ThemeName.HALLOWEEN : ThemeName.CYBERPUNK;
+    handleThemeChange(newTheme);
+    setCurrentTheme(newTheme);
   };
 
   useEffect(() => {
+    setCurrentTheme(theme);
     document.querySelector('html')?.setAttribute('data-theme', theme);
   }, [theme]);
 
   return (
-    <div className='dropdown'>
-      <div tabIndex={0} role='button' className='btn m-1'>
-        Change theme
-      </div>
-      <ul tabIndex={0} className='dropdown-content bg-base-100 rounded-box z-[1] p-2 shadow'>
-        {themes.map(theme => {
-          return (
-            <li key={theme} onClick={() => themeChangeHandler(theme)}>
-              <span>{theme}</span>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <label className='flex items-center cursor-pointer gap-2'>
+      <GiSteampunkGoggles size={28} />
+      <input
+        type='checkbox'
+        onChange={themeChangeHandler}
+        aria-label='Toggle theme'
+        className='toggle theme-controller'
+      />
+      <GiPumpkinLantern size={22} />
+    </label>
   );
 };

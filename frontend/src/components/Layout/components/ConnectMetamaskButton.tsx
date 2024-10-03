@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import { ethers } from 'ethers';
 
-export const ConnectMetamask: FC = () => {
+export const ConnectMetamaskButton: FC = () => {
   const [address, setAddress] = useState<string | null>(null);
 
   const connectMetamask = async () => {
@@ -10,8 +10,6 @@ export const ConnectMetamask: FC = () => {
       provider = ethers.getDefaultProvider();
     } else {
       provider = new ethers.BrowserProvider(window.ethereum);
-
-      console.log(provider);
 
       const { address } = await provider.getSigner();
       setAddress(address);
