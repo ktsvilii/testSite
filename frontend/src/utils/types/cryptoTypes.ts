@@ -8,3 +8,12 @@ export interface Coin {
   volumeToMarketCap: string;
   icon: string;
 }
+
+export interface News {
+  id: string;
+  title: string;
+  searchKeyWords: string[];
+  link: string;
+  feedDate: number;
+  source: string;
+}

@@ -1,17 +1,56 @@
 import { FC, useContext } from 'react';
-import { CryptoTableRow } from './CryptoTableRow';
 import { Coin, ThemeName } from '@utils/types';
 import { useSort } from '@hooks/useSort';
 import { ThemeContext } from '@context';
 
+import { useCryptoTable } from './useCryptoTable';
+import { usePagination } from '@hooks';
+
 import { BiSolidCaretUpSquare, BiCaretUpSquare, BiSolidCaretDownSquare, BiCaretDownSquare } from 'react-icons/bi';
 import { TbCaretUpDownFilled, TbCaretUpDown } from 'react-icons/tb';
+import classNames from 'classnames';
 
 interface CryptoTableProps {
-  coins: Coin[] | [];
+  className?: string;
 }
 
-export const CryptoTable: FC<CryptoTableProps> = ({ coins }) => {
+interface CryptoTableRowProps {
+  coin: Coin;
+}
+
+const CryptoTableRow: FC<CryptoTableRowProps> = ({ coin }) => {
+  const { id, name, rank, symbol, icon, volumeToMarketCap, price, marketCap } = coin;
+
+  return (
+    <tr>
+      <td>{rank}</td>
+      <td>
+        <div className='flex items-center gap-3'>
+          <div className='avatar'>
+            <div className='mask mask-squircle h-8 w-8'>
+              <img src={icon} alt={id} />
+            </div>
+          </div>
+          <div>
+            <div className='font-bold'>{name}</div>
+            <div className='text-sm opacity-50'>{symbol}</div>
+          </div>
+        </div>
+      </td>
+      <td>
+        {price}
+        <br />
+        <span className='badge-sm p-0'>{marketCap}</span>
+      </td>
+      <td>{volumeToMarketCap}%</td>
+    </tr>
+  );
+};
+
+export const CryptoTable: FC<CryptoTableProps> = ({ className }) => {
+  const { currentPage, nextPage, prevPage } = usePagination(1);
+  const { coins } = useCryptoTable(currentPage);
+
   const { sortConfig, sortedCoins, requestSort } = useSort(coins);
 
   const { theme } = useContext(ThemeContext);
@@ -30,7 +69,7 @@ export const CryptoTable: FC<CryptoTableProps> = ({ coins }) => {
   };
 
   return (
-    <div className='overflow-x-auto'>
+    <div className={classNames('overflow-x-auto', className)}>
       <table className='table table-zebra'>
         {/* head */}
         <thead>
@@ -42,7 +81,6 @@ export const CryptoTable: FC<CryptoTableProps> = ({ coins }) => {
               % of MCap Traded Daily
               {getSortIcon()}
             </th>
-            <th></th>
           </tr>
         </thead>
         <tbody>
@@ -56,6 +94,15 @@ export const CryptoTable: FC<CryptoTableProps> = ({ coins }) => {
           )}
         </tbody>
       </table>
+
+      <div className='join grid grid-cols-2'>
+        <button onClick={prevPage} className='join-item btn btn-outline' disabled={currentPage === 1}>
+          Previous page
+        </button>
+        <button onClick={nextPage} className='join-item btn btn-outline'>
+          Next
+        </button>
+      </div>
     </div>
   );
 };

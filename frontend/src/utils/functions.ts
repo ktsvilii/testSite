@@ -8,3 +8,21 @@ export const currencyFormatter = new Intl.NumberFormat('en-US', {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
 });
+
+export const shortenTitle = (title: string): string => {
+  const lastPeriodIndex = title.lastIndexOf('.');
+
+  if (lastPeriodIndex !== -1) {
+    return title.slice(0, lastPeriodIndex + 1);
+  }
+  return title;
+};
+
+export const formatDate = (ms: number): string => {
+  const date = new Date(ms);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+};

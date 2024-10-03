@@ -6,7 +6,7 @@ import { Coin } from '@utils/types';
 
 const fetchCryptoData = async (page: number) => {
   try {
-    const data = await fetch(`${DEFAULT_API_ENDPOINT}crypto?limit=${CRYPTO_LIMIT}&page=${page}`);
+    const data = await fetch(`${DEFAULT_API_ENDPOINT}crypto/currency?limit=${CRYPTO_LIMIT}&page=${page}`);
 
     if (!data.ok) {
       throw new Error('Error fetching cryptocurrency, try later');
@@ -21,7 +21,7 @@ const fetchCryptoData = async (page: number) => {
   }
 };
 
-export const useHome = (currentPage: number) => {
+export const useCryptoTable = (currentPage: number) => {
   const { data = [], isError } = useQuery({
     queryKey: ['coins', currentPage],
     queryFn: () => fetchCryptoData(currentPage),

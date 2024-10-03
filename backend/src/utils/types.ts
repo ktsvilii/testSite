@@ -29,3 +29,30 @@ export interface Coin {
   volumeToMarketCap: string;
   icon: string;
 }
+
+export interface NewsRawData {
+  id: string;
+  searchKeyWords: string[];
+  feedDate: number;
+  source: string;
+  title: string;
+  sourceLink: string;
+  isFeatured: boolean;
+  imgUrl: string;
+  reactionsCount: Record<string, number>;
+  reactions: any[];
+  shareURL: string;
+  relatedCoins: string[];
+  content: boolean;
+  link: string;
+  bigImg: boolean;
+}
+
+export interface News {
+  id: string;
+  title: string;
+  searchKeyWords: string[];
+  link: string;
+  feedDate: number;
+  source: string;
+}
