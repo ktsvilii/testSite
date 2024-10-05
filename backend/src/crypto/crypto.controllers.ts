@@ -12,8 +12,8 @@ cryptoRouter.get('/currency', async (req, res) => {
 });
 
 cryptoRouter.get('/news', async (req, res) => {
-  const { page } = req.query;
-  const data = await cryptoService.getCryptoNews(page as string);
+  const { limit, page } = req.query;
+  const data = await cryptoService.getCryptoNews(limit as string, page as string);
   res.status(200).json(data);
 });
 

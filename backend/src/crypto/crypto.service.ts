@@ -52,8 +52,8 @@ export class CryptoService {
     }
   }
 
-  async getCryptoNews(page: string): Promise<News[]> {
-    const url = `https://openapiv1.coinstats.app/news?limit=5&page=${page}`;
+  async getCryptoNews(limit: string, page: string): Promise<News[]> {
+    const url = `https://openapiv1.coinstats.app/news?limit=${limit}&page=${page}`;
     try {
       const { result }: { result: NewsRawData[] } = await this.fetchFromApi(url);
       return this.transformNewsData(result);

@@ -1,3 +1,5 @@
+import { NEWS_LENGTH_LIMIT } from './constants';
+
 export const getVolumeToMarketCap = (volume24h: number, marketCap: number) => {
   return (volume24h / marketCap) * 100;
 };
@@ -10,11 +12,15 @@ export const currencyFormatter = new Intl.NumberFormat('en-US', {
 });
 
 export const shortenTitle = (title: string): string => {
-  const lastPeriodIndex = title.lastIndexOf('.');
+  if (title.length > NEWS_LENGTH_LIMIT) {
+    return `${title.slice(0, NEWS_LENGTH_LIMIT)}...`;
+  }
 
+  const lastPeriodIndex = title.lastIndexOf('.');
   if (lastPeriodIndex !== -1) {
     return title.slice(0, lastPeriodIndex + 1);
   }
+
   return title;
 };
 

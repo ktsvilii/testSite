@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 
-import { DEFAULT_API_ENDPOINT } from '@utils/constants';
+import { DEFAULT_API_ENDPOINT, NEWS_LIMIT } from '@utils/constants';
 import { News } from '@utils/types';
 
 const fetchCryptoNews = async (page: number) => {
   try {
-    const data = await fetch(`${DEFAULT_API_ENDPOINT}crypto/news?page=${page}`);
+    const data = await fetch(`${DEFAULT_API_ENDPOINT}crypto/news?limit=${NEWS_LIMIT}&page=${page}`);
 
     if (!data.ok) {
       throw new Error('Error fetching cryptocurrency, try later');
