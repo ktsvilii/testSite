@@ -1,7 +1,9 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useCryptoNews } from './useCryptoNews';
-import { Loader } from '@components/Loader';
 import { formatDate, shortenTitle } from '@utils/functions';
+import classNames from 'classnames';
+import { NewsType } from '@utils/types';
+import { Loader } from '@components/Loader';
 
 interface NewsProps {
   className?: string;
@@ -17,7 +19,7 @@ interface NewsItemProps {
 }
 
 const NewsItem: FC<NewsItemProps> = ({ feedDate, id, link, searchKeyWords, source, title }) => (
-  <div key={id} className='collapse collapse-plus join-item border-base-300 border my-3'>
+  <div key={id} className='collapse collapse-plus max-w-[370px] w-full join-item border-base-300 border my-3'>
     <input type='radio' name='my-accordion-3' />
     <span className='text-sm font-bold ml-4'>{formatDate(feedDate)}</span>
     <div className='collapse-title text-lg font-medium'>{shortenTitle(title)}</div>
@@ -40,17 +42,40 @@ const NewsItem: FC<NewsItemProps> = ({ feedDate, id, link, searchKeyWords, sourc
 );
 
 export const News: FC<NewsProps> = ({ className }) => {
-  const { news, isLoading } = useCryptoNews(1);
+  const [currentlySelectedTab, setCurrentlySelectedTab] = useState<NewsType>(NewsType.LATEST);
+  const { news, isFetching } = useCryptoNews(currentlySelectedTab);
 
-  if (isLoading) {
-    return <Loader />;
-  }
+  const handleChangeTab = (tabName: NewsType) => {
+    setCurrentlySelectedTab(tabName);
+  };
 
   return (
-    <div className={className}>
-      {news.map(newsItem => (
-        <NewsItem key={newsItem.id} {...newsItem} />
-      ))}
+    <div role='tablist' className={classNames('tabs tabs-bordered justify-self-stretch overflow-hidden', className)}>
+      {Object.values(NewsType).map(type => {
+        return (
+          <>
+            <input
+              type='radio'
+              name='my_tabs_1'
+              role='tab'
+              className='tab text-nowrap'
+              aria-label={type}
+              checked={currentlySelectedTab === type}
+              onChange={() => handleChangeTab(type)}
+              disabled={isFetching}
+            />
+            <div role='tabpanel' className='tab-content'>
+              {isFetching ? (
+                <div className='flex justify-center items-center min-h-[400px]'>
+                  <Loader />
+                </div>
+              ) : (
+                news?.map(newsItem => <NewsItem key={newsItem.id} {...newsItem} />)
+              )}
+            </div>
+          </>
+        );
+      })}
     </div>
   );
 };

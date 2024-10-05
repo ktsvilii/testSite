@@ -17,3 +17,9 @@ export interface News {
   feedDate: number;
   source: string;
 }
+
+export enum NewsType {
+  LATEST = 'Latest',
+  BULLISH = 'Bullish',
+  BEARISH = 'Bearish',
+}

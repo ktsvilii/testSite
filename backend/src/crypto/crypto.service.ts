@@ -52,14 +52,15 @@ export class CryptoService {
     }
   }
 
-  async getCryptoNews(limit: string, page: string): Promise<News[]> {
-    const url = `https://openapiv1.coinstats.app/news?limit=${limit}&page=${page}`;
+  async getCryptoNews(type: string, limit: string): Promise<News[]> {
+    const url = `https://openapiv1.coinstats.app/news/type/${type}?limit=${limit}`;
+
     try {
-      const { result }: { result: NewsRawData[] } = await this.fetchFromApi(url);
-      return this.transformNewsData(result);
+      const data: NewsRawData[] = await this.fetchFromApi(url);
+      return this.transformNewsData(data);
     } catch (error) {
-      console.error('Error in fetching crypto news:', error);
-      throw new Error('Failed to fetch crypto news');
+      console.error(`Error in fetching ${type} crypto news.`, error);
+      throw new Error(`Failed to fetch crypto news`);
     }
   }
 }
