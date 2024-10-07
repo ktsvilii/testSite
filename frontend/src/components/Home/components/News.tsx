@@ -19,7 +19,7 @@ interface NewsItemProps {
 }
 
 const NewsItem: FC<NewsItemProps> = ({ feedDate, id, link, searchKeyWords, source, title }) => (
-  <div key={id} className='collapse collapse-plus max-w-[370px] w-full join-item border-base-300 border my-3'>
+  <div className='collapse collapse-plus max-w-[350px] w-full join-item border-base-300 border my-3'>
     <input type='radio' name='my-accordion-3' />
     <span className='text-sm font-bold ml-4'>{formatDate(feedDate)}</span>
     <div className='collapse-title text-lg font-medium'>{shortenTitle(title)}</div>
@@ -65,13 +65,7 @@ export const News: FC<NewsProps> = ({ className }) => {
               disabled={isFetching}
             />
             <div role='tabpanel' className='tab-content'>
-              {isFetching ? (
-                <div className='flex justify-center items-center min-h-[400px]'>
-                  <Loader />
-                </div>
-              ) : (
-                news?.map(newsItem => <NewsItem key={newsItem.id} {...newsItem} />)
-              )}
+              {isFetching ? <Loader /> : news?.map(newsItem => <NewsItem key={newsItem.id} {...newsItem} />)}
             </div>
           </>
         );

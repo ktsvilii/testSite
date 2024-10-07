@@ -9,6 +9,7 @@ import { usePagination } from '@hooks';
 import { BiSolidCaretUpSquare, BiCaretUpSquare, BiSolidCaretDownSquare, BiCaretDownSquare } from 'react-icons/bi';
 import { TbCaretUpDownFilled, TbCaretUpDown } from 'react-icons/tb';
 import classNames from 'classnames';
+import { Loader } from '@components/Loader';
 
 interface CryptoTableProps {
   className?: string;
@@ -49,7 +50,7 @@ const CryptoTableRow: FC<CryptoTableRowProps> = ({ coin }) => {
 
 export const CryptoTable: FC<CryptoTableProps> = ({ className }) => {
   const { currentPage, nextPage, prevPage } = usePagination(1);
-  const { coins } = useCryptoTable(currentPage);
+  const { coins, isFetching } = useCryptoTable(currentPage);
 
   const { sortConfig, sortedCoins, requestSort } = useSort(coins);
 
@@ -85,13 +86,7 @@ export const CryptoTable: FC<CryptoTableProps> = ({ className }) => {
         </thead>
         <tbody>
           {/* rows */}
-          {sortedCoins.length ? (
-            sortedCoins.map((coin: Coin) => <CryptoTableRow coin={coin} key={coin.id} />)
-          ) : (
-            <tr>
-              <td>No coins here</td>
-            </tr>
-          )}
+          {isFetching ? <Loader /> : sortedCoins.map((coin: Coin) => <CryptoTableRow coin={coin} key={coin.id} />)}
         </tbody>
       </table>
 

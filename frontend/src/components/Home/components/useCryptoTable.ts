@@ -22,7 +22,11 @@ const fetchCryptoData = async (page: number) => {
 };
 
 export const useCryptoTable = (currentPage: number) => {
-  const { data = [], isError } = useQuery({
+  const {
+    data = [],
+    isError,
+    isFetching,
+  } = useQuery({
     queryKey: ['coins', currentPage],
     queryFn: () => fetchCryptoData(currentPage),
     keepPreviousData: true,
@@ -32,5 +36,5 @@ export const useCryptoTable = (currentPage: number) => {
     if (isError) console.log('Error fetching coins');
   }, [isError]);
 
-  return { coins: data };
+  return { coins: data, isFetching };
 };
