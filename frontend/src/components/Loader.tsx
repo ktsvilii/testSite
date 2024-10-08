@@ -8,7 +8,7 @@ interface LoaderProps {
 export const Loader: FC<LoaderProps> = ({ size = Size.LG }) => {
   return (
     <div className='flex justify-center items-center min-h-[100vh]'>
-      <span className={`loading loading-bars loading-${size}`}></span>
+      <div className={`loading loading-bars loading-${size}`}></div>
     </div>
   );
 };

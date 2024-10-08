@@ -10,28 +10,29 @@ export const ConnectMetamaskButton: FC = memo(() => {
 
   const [address, setAddress] = useState<string | null>(null);
 
-  const notify = () => toast.error('Metamask is not found!');
-
   const connectMetamask = async () => {
     let provider;
-    if (window.ethereum == null) {
-      notify();
-      provider = ethers.getDefaultProvider();
-      localStorage.removeItem('isAuth');
-      setIsAuthenticated(false);
-      return;
-    } else {
-      provider = new ethers.BrowserProvider(window.ethereum);
 
-      const { address } = await provider.getSigner();
-
-      if (address) {
-        localStorage.setItem('isAuth', 'true');
-        setAddress(address);
-        setIsAuthenticated(true);
-      } else {
+    try {
+      if (window.ethereum == null) {
+        toast.error('Metamask is not found!');
+        provider = ethers.getDefaultProvider();
         localStorage.removeItem('isAuth');
+        setIsAuthenticated(false);
+        return;
+      } else {
+        provider = new ethers.BrowserProvider(window.ethereum);
+
+        const { address } = await provider.getSigner();
+
+        if (address) {
+          localStorage.setItem('isAuth', 'true');
+          setAddress(address);
+          setIsAuthenticated(true);
+        }
       }
+    } catch (error) {
+      localStorage.removeItem('isAuth');
     }
   };
 

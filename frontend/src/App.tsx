@@ -26,7 +26,7 @@ const ProtectedRoutes: FC<ProtectedRoutesProps> = ({ Component }) => {
     if (!isAuthenticated) {
       const timer = setTimeout(() => {
         navigate('/');
-      }, 3000);
+      }, 15000);
 
       return () => clearTimeout(timer);
     }

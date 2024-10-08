@@ -86,7 +86,15 @@ export const CryptoTable: FC<CryptoTableProps> = ({ className }) => {
         </thead>
         <tbody>
           {/* rows */}
-          {isFetching ? <Loader /> : sortedCoins.map((coin: Coin) => <CryptoTableRow coin={coin} key={coin.id} />)}
+          {isFetching ? (
+            <tr>
+              <td colSpan={4}>
+                <Loader />
+              </td>
+            </tr>
+          ) : (
+            sortedCoins.map((coin: Coin) => <CryptoTableRow coin={coin} key={coin.id} />)
+          )}
         </tbody>
       </table>
 
